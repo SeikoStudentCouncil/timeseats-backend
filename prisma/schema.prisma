@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id         String             @id @default(uuid())
+  name       String
+  price      Int
+  inventory  ProductInventory[]
+  orderItems OrderItem[]
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+}
+
+model SalesSlot {
+  id                 String             @id @default(uuid())
+  startTime          DateTime
+  endTime            DateTime
+  isActive           Boolean            @default(false)
+  productInventories ProductInventory[]
+  orders             Order[]
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+model ProductInventory {
+  id               String    @id @default(uuid())
+  salesSlot        SalesSlot @relation(fields: [salesSlotId], references: [id])
+  salesSlotId      String
+  product          Product   @relation(fields: [productId], references: [id])
+  productId        String
+  initialQuantity  Int
+  reservedQuantity Int       @default(0)
+  soldQuantity     Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([salesSlotId, productId])
+}
+
+model Order {
+  id          String       @id @default(uuid())
+  salesSlot   SalesSlot    @relation(fields: [salesSlotId], references: [id])
+  salesSlotId String
+  items       OrderItem[]
+  status      String       @default("RESERVED")
+  ticket      OrderTicket?
+  totalAmount Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  price     Int
+}
+
+model OrderTicket {
+  id            String   @id @default(uuid())
+  ticketNumber  String   @unique
+  order         Order    @relation(fields: [orderId], references: [id])
+  orderId       String   @unique
+  paymentMethod String
+  transactionId String?
+  isPaid        Boolean  @default(false)
+  isDelivered   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
