@@ -29,6 +29,51 @@ export interface ProductRepository extends Repository<Product> {
     >;
 
     /**
+     * 特定の商品と販売枠の在庫情報を取得
+     * @param productId 商品ID
+     * @param salesSlotId 販売枠ID
+     */
+    findInventoryByProductAndSalesSlot(
+        productId: ID,
+        salesSlotId: ID
+    ): Promise<ProductInventory | null>;
+
+    /**
+     * 在庫情報を更新
+     * @param id 在庫情報ID
+     * @param inventory 更新する在庫情報
+     */
+    updateInventory(
+        id: ID,
+        inventory: Partial<
+            Omit<
+                ProductInventory,
+                "id" | "productId" | "salesSlotId" | "createdAt" | "updatedAt"
+            >
+        >
+    ): Promise<ProductInventory>;
+
+    /**
+     * 在庫情報を作成
+     * @param inventory 作成する在庫情報
+     */
+    createInventory(
+        inventory: Omit<ProductInventory, "id" | "createdAt" | "updatedAt">
+    ): Promise<ProductInventory>;
+
+    /**
+     * 特定の販売枠の在庫情報を全て取得
+     * @param salesSlotId 販売枠ID
+     */
+    findInventoryBySalesSlot(salesSlotId: ID): Promise<ProductInventory[]>;
+
+    /**
+     * 特定の商品の在庫情報を全て取得
+     * @param productId 商品ID
+     */
+    findInventoryByProduct(productId: ID): Promise<ProductInventory[]>;
+
+    /**
      * 在庫がある商品のみを取得
      * @param salesSlotId 販売枠ID
      * @param includeReserved 予約済み在庫を含めるかどうか

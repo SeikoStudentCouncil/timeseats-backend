@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import type { ProductRepository } from "@/domain/repositories/product-repository.js";
-import type { Product } from "@/domain/models/product.js";
-import type { ProductInventory } from "@/domain/models/product-inventory.js";
-import type { ID } from "@/domain/types/id.js";
+import type { ProductRepository } from "../../domain/repositories/product-repository.js";
+import type { Product } from "../../domain/models/product.js";
+import type { ProductInventory } from "../../domain/models/product-inventory.js";
+import type { ID } from "../../domain/types/id.js";
 
 export class ProductRepositoryImpl implements ProductRepository {
     constructor(private readonly prisma: PrismaClient) {}
@@ -74,17 +74,54 @@ export class ProductRepositoryImpl implements ProductRepository {
         }));
     }
 
-    async findByPriceRange(
-        minPrice: number,
-        maxPrice: number
-    ): Promise<Product[]> {
-        return this.prisma.product.findMany({
+    async findInventoryByProductAndSalesSlot(
+        productId: ID,
+        salesSlotId: ID
+    ): Promise<ProductInventory | null> {
+        return this.prisma.productInventory.findUnique({
             where: {
-                AND: [
-                    { price: { gte: minPrice } },
-                    { price: { lte: maxPrice } },
-                ],
+                salesSlotId_productId: {
+                    salesSlotId,
+                    productId,
+                },
             },
+        });
+    }
+
+    async updateInventory(
+        id: ID,
+        inventory: Partial<
+            Omit<
+                ProductInventory,
+                "id" | "productId" | "salesSlotId" | "createdAt" | "updatedAt"
+            >
+        >
+    ): Promise<ProductInventory> {
+        return this.prisma.productInventory.update({
+            where: { id },
+            data: inventory,
+        });
+    }
+
+    async createInventory(
+        inventory: Omit<ProductInventory, "id" | "createdAt" | "updatedAt">
+    ): Promise<ProductInventory> {
+        return this.prisma.productInventory.create({
+            data: inventory,
+        });
+    }
+
+    async findInventoryBySalesSlot(
+        salesSlotId: ID
+    ): Promise<ProductInventory[]> {
+        return this.prisma.productInventory.findMany({
+            where: { salesSlotId },
+        });
+    }
+
+    async findInventoryByProduct(productId: ID): Promise<ProductInventory[]> {
+        return this.prisma.productInventory.findMany({
+            where: { productId },
         });
     }
 
@@ -106,7 +143,6 @@ export class ProductRepositoryImpl implements ProductRepository {
             },
         });
 
-        // アプリケーションレベルでの在庫チェック
         return inventories
             .filter((inv) => {
                 const remainingQuantity = includeReserved

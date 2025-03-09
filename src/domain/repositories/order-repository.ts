@@ -10,6 +10,23 @@ import type { OrderStatus } from "../types/order-status.js";
  */
 export interface OrderRepository extends Repository<Order> {
     /**
+     * 注文を作成し、作成された注文を返します
+     * @param data 注文データ
+     */
+    createOrder(data: {
+        salesSlotId: ID;
+        status: OrderStatus;
+        items: Array<{
+            productId: ID;
+            quantity: number;
+            price: number;
+        }>;
+        totalAmount: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }): Promise<Order>;
+
+    /**
      * 販売枠IDによる注文検索
      * @param salesSlotId 販売枠ID
      */

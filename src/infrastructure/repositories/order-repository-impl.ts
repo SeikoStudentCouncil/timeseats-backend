@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import type { OrderRepository } from "@/domain/repositories/order-repository.js";
-import type { Order } from "@/domain/models/order.js";
-import type { OrderTicket } from "@/domain/models/order-ticket.js";
-import type { OrderItem } from "@/domain/models/order-item.js";
-import type { ID } from "@/domain/types/id.js";
-import type { OrderStatus } from "@/domain/types/order-status.js";
-import type { PaymentMethod } from "@/domain/types/payment-method.js";
+import type { OrderRepository } from "../../domain/repositories/order-repository.js";
+import type { Order } from "../../domain/models/order.js";
+import type { OrderTicket } from "../../domain/models/order-ticket.js";
+import type { OrderItem } from "../../domain/models/order-item.js";
+import type { ID } from "../../domain/types/id.js";
+import type { OrderStatus } from "../../domain/types/order-status.js";
+import type { PaymentMethod } from "../../domain/types/payment-method.js";
 
 export class OrderRepositoryImpl implements OrderRepository {
     constructor(private readonly prisma: PrismaClient) {}
@@ -64,20 +64,42 @@ export class OrderRepositoryImpl implements OrderRepository {
     }
 
     async create(entity: Omit<Order, "id">): Promise<void> {
-        await this.prisma.order.create({
+        await this.createOrder(entity);
+    }
+
+    async createOrder(data: {
+        salesSlotId: ID;
+        status: OrderStatus;
+        items: Array<{
+            productId: ID;
+            quantity: number;
+            price: number;
+        }>;
+        totalAmount: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }): Promise<Order> {
+        const order = await this.prisma.order.create({
             data: {
-                salesSlotId: entity.salesSlotId,
-                status: entity.status,
-                totalAmount: entity.totalAmount,
+                salesSlotId: data.salesSlotId,
+                status: data.status,
+                totalAmount: data.totalAmount,
+                createdAt: data.createdAt,
+                updatedAt: data.updatedAt,
                 items: {
-                    create: entity.items.map((item) => ({
+                    create: data.items.map((item) => ({
                         productId: item.productId,
                         quantity: item.quantity,
                         price: item.price,
                     })),
                 },
             },
+            include: {
+                items: true,
+            },
         });
+
+        return this.mapToOrder(order);
     }
 
     async update(id: ID, entity: Partial<Order>): Promise<void> {
@@ -196,11 +218,6 @@ export class OrderRepositoryImpl implements OrderRepository {
             where: { salesSlotId },
             select: {
                 status: true,
-                _count: {
-                    select: {
-                        items: true,
-                    },
-                },
             },
         });
 
