@@ -1,18 +1,11 @@
 import { serve } from "@hono/node-server";
-import { Hono } from "hono";
+import api from "./router.js";
 
-const app = new Hono();
+const port = process.env.PORT || 3000;
 
-app.get("/", (c) => {
-    return c.text("Hello Hono!");
+console.log(`サーバーを起動します: http://localhost:${port}`);
+
+serve({
+    fetch: api.fetch,
+    port: Number(port),
 });
-
-serve(
-    {
-        fetch: app.fetch,
-        port: 3000,
-    },
-    (info) => {
-        console.log(`Server is running on http://localhost:${info.port}`);
-    }
-);

@@ -1,0 +1,116 @@
+import type { Context } from "hono";
+import type { SalesSlotService } from "../../domain/services/sales-slot-service.js";
+
+export class SalesSlotController {
+    constructor(private readonly salesSlotService: SalesSlotService) {}
+
+    async getAllSalesSlots(c: Context) {
+        try {
+            const salesSlots = await this.salesSlotService.getAllSalesSlots();
+            return c.json({ success: true, data: salesSlots });
+        } catch (error) {
+            return c.json(
+                {
+                    success: false,
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
+                },
+                500
+            );
+        }
+    }
+
+    async getSalesSlotById(c: Context) {
+        try {
+            const id = c.req.param("id");
+            const salesSlot = await this.salesSlotService.getSalesSlotById(id);
+            if (!salesSlot) {
+                return c.json(
+                    { success: false, error: "Sales slot not found" },
+                    404
+                );
+            }
+            return c.json({ success: true, data: salesSlot });
+        } catch (error) {
+            return c.json(
+                {
+                    success: false,
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
+                },
+                500
+            );
+        }
+    }
+
+    async createSalesSlot(c: Context) {
+        try {
+            const data = await c.req.json();
+            const salesSlot = await this.salesSlotService.createSalesSlot(data);
+            return c.json({ success: true, data: salesSlot }, 201);
+        } catch (error) {
+            return c.json(
+                {
+                    success: false,
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
+                },
+                500
+            );
+        }
+    }
+
+    async updateSalesSlot(c: Context) {
+        try {
+            const id = c.req.param("id");
+            const data = await c.req.json();
+            const salesSlot = await this.salesSlotService.updateSalesSlot(
+                id,
+                data
+            );
+            if (!salesSlot) {
+                return c.json(
+                    { success: false, error: "Sales slot not found" },
+                    404
+                );
+            }
+            return c.json({ success: true, data: salesSlot });
+        } catch (error) {
+            return c.json(
+                {
+                    success: false,
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
+                },
+                500
+            );
+        }
+    }
+
+    async deleteSalesSlot(c: Context) {
+        try {
+            const id = c.req.param("id");
+            await this.salesSlotService.deleteSalesSlot(id);
+            return c.json({ success: true });
+        } catch (error) {
+            return c.json(
+                {
+                    success: false,
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
+                },
+                500
+            );
+        }
+    }
+}

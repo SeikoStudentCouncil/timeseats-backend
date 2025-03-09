@@ -7,11 +7,16 @@
   "dependencies": {
     "@hono/node-server": "^1.13.8",
     "@prisma/client": "6.4.1",
-    "hono": "^4.7.4"
+    "date-fns": "^3.6.0",
+    "hono": "^4.7.4",
+    "pino": "^8.21.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.17.24",
+    "@types/pino": "^7.0.5",
+    "pino-pretty": "^10.3.1",
     "prisma": "6.4.1",
-    "tsx": "^4.7.1"
+    "tsx": "^4.19.3"
   }
 }
