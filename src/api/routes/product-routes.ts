@@ -1,8 +1,7 @@
 import { Hono } from "hono";
 import type { Context } from "hono";
 import { describeRoute } from "hono-openapi";
-import { resolver } from "hono-openapi/zod";
-import { zValidator } from "@hono/zod-validator";
+import { resolver, validator as zValidator } from "hono-openapi/zod";
 import type { ProductController } from "../../application/controllers/product-controller.js";
 import {
     createProductSchema,

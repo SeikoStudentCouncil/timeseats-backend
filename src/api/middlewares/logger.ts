@@ -1,6 +1,5 @@
 import type { MiddlewareHandler } from "hono";
 import { pino } from "pino";
-import type { Context, Next } from "hono";
 
 // ロガーインスタンスの作成
 export const logger = pino({

@@ -57,14 +57,14 @@ export const createApiRouter = (deps: ApiDependencies) => {
         openAPISpecs(app, {
             documentation: {
                 info: {
-                    title: "TimeSeats API",
+                    title: "TimesEats API",
                     version: API_VERSION,
-                    description: "TimeSeats バックエンドAPI",
+                    description: "TimesEats Backend API",
                 },
                 servers: [
                     {
                         url: "http://localhost:3000",
-                        description: "開発サーバー",
+                        description: "TimesEats API Server",
                     },
                 ],
             },
