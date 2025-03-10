@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PaymentMethod } from "../../domain/types/payment-method.js";
+import { PaymentMethod } from "@/domain/types/index.js";
 
 export const createTicketSchema = z.object({
     orderId: z.string().min(1, "注文IDは必須です"),

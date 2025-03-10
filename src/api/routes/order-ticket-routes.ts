@@ -2,14 +2,14 @@ import { Hono } from "hono";
 import type { Context } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
-import type { OrderTicketController } from "../../application/controllers/order-ticket-controller.js";
+import type { OrderTicketController } from "@/application/controllers/index.js";
 import {
     createTicketSchema,
     updatePaymentStatusSchema,
     updateDeliveryStatusSchema,
-} from "../../application/validators/order-ticket-validator.js";
+} from "@/application/validators/index.js";
 import { z } from "zod";
-import { PaymentMethod } from "../../domain/types/payment-method.js";
+import { PaymentMethod } from "@/domain/types/index.js";
 
 // APIレスポンススキーマの定義
 const orderTicketResponseSchema = z.object({

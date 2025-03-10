@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import type { Context } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
-import type { SalesSlotController } from "../../application/controllers/sales-slot-controller.js";
+import type { SalesSlotController } from "@/application/controllers/index.js";
 import {
     createSalesSlotSchema,
     updateSalesSlotSchema,
     salesSlotIdSchema,
     searchSalesSlotSchema,
-} from "../../application/validators/sales-slot-validator.js";
+} from "@/application/validators/index.js";
 import { z } from "zod";
 
 // APIレスポンススキーマの定義

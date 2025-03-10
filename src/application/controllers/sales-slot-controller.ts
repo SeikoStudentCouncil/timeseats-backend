@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import type { SalesSlotService } from "../../domain/services/sales-slot-service.js";
+import type { SalesSlotService } from "@/domain/services/sales-slot-service.js";
 
 export class SalesSlotController {
     constructor(private readonly salesSlotService: SalesSlotService) {}

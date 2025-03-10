@@ -3,14 +3,14 @@ import { createProductRoutes } from "./product-routes.js";
 import { createOrderRoutes } from "./order-routes.js";
 import { createOrderTicketRoutes } from "./order-ticket-routes.js";
 import { createSalesSlotRoutes } from "./sales-slot-routes.js";
-import { errorHandler } from "../middlewares/error-handler.js";
+import { errorHandler } from "@/api/middlewares/index.js";
 import { loggerMiddleware } from "../middlewares/logger.js";
 import { openAPISpecs } from "hono-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
-import type { ProductController } from "../../application/controllers/product-controller.js";
-import type { OrderController } from "../../application/controllers/order-controller.js";
-import type { OrderTicketController } from "../../application/controllers/order-ticket-controller.js";
-import type { SalesSlotController } from "../../application/controllers/sales-slot-controller.js";
+import type { ProductController } from "@/application/controllers/product-controller.js";
+import type { OrderController } from "@/application/controllers/index.js";
+import type { OrderTicketController } from "@/application/controllers/index.js";
+import type { SalesSlotController } from "@/application/controllers/index.js";
 
 // 依存性のインターフェース
 export interface ApiDependencies {

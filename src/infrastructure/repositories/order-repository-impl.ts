@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import type { OrderRepository } from "../../domain/repositories/order-repository.js";
-import type { Order } from "../../domain/models/order.js";
-import type { OrderTicket } from "../../domain/models/order-ticket.js";
-import type { OrderItem } from "../../domain/models/order-item.js";
-import type { ID } from "../../domain/types/id.js";
-import type { OrderStatus } from "../../domain/types/order-status.js";
-import type { PaymentMethod } from "../../domain/types/payment-method.js";
+import type { OrderRepository } from "@/domain/repositories/order-repository.js";
+import type { Order } from "@/domain/models/index.js";
+import type { OrderTicket } from "@/domain/models/index.js";
+import type { OrderItem } from "@/domain/models/index.js";
+import type { ID } from "@/domain/types/id.js";
+import type { OrderStatus } from "@/domain/types/order-status.js";
+import type { PaymentMethod } from "@/domain/types/payment-method.js";
 
 export class OrderRepositoryImpl implements OrderRepository {
     constructor(private readonly prisma: PrismaClient) {}

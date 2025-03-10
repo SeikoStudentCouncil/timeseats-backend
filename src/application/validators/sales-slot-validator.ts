@@ -1,5 +1,3 @@
-// src/application/validators/sales-slot-validator.ts
-
 import { z } from "zod";
 
 // 販売枠作成用のバリデーションスキーマ

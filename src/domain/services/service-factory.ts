@@ -9,10 +9,10 @@ import type { OrderService } from "./order-service.js";
 import type { OrderTicketService } from "./order-ticket-service.js";
 
 // Import repository implementations
-import { ProductRepositoryImpl } from "../../infrastructure/repositories/product-repository-impl.js";
-import { SalesSlotRepositoryImpl } from "../../infrastructure/repositories/sales-slot-repository-impl.js";
-import { OrderRepositoryImpl } from "../../infrastructure/repositories/order-repository-impl.js";
-import { OrderTicketRepositoryImpl } from "../../infrastructure/repositories/order-ticket-repository-impl.js";
+import { ProductRepositoryImpl } from "@/infrastructure/repositories/product-repository-impl.js";
+import { SalesSlotRepositoryImpl } from "@/infrastructure/repositories/sales-slot-repository-impl.js";
+import { OrderRepositoryImpl } from "@/infrastructure/repositories/order-repository-impl.js";
+import { OrderTicketRepositoryImpl } from "@/infrastructure/repositories/order-ticket-repository-impl.js";
 
 /**
  * サービスファクトリー - 各ドメインサービスのインスタンスを提供します

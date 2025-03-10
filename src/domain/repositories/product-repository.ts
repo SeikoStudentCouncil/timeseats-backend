@@ -1,6 +1,6 @@
 import type { Repository } from "./repository.js";
 import type { Product } from "../models/product.js";
-import type { ProductInventory } from "../models/product-inventory.js";
+import type { ProductInventory } from "@/domain/models/index.js";
 import type { ID } from "../types/id.js";
 
 /**

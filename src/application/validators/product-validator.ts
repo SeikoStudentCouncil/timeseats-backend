@@ -1,5 +1,3 @@
-// src/application/validators/product-validator.ts
-
 import { z } from "zod";
 
 // 商品作成用のバリデーションスキーマ

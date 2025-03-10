@@ -1,6 +1,6 @@
 import type { ID } from "../types/id.js";
 import type { SalesSlot } from "../models/sales-slot.js";
-import type { ProductInventory } from "../models/product-inventory.js";
+import type { ProductInventory } from "@/domain/models/index.js";
 
 /**
  * SalesSlotService - 販売枠サービスのインターフェース
