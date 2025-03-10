@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { OrderStatus } from "@/domain/types/index.js";
+import { OrderStatus } from "../../domain/types/index.js";
 
 // 注文アイテム用のバリデーションスキーマ
 const orderItemSchema = z.object({

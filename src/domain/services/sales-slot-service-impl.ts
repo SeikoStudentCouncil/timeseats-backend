@@ -1,6 +1,6 @@
 import type { ID } from "../types/id.js";
 import type { SalesSlot } from "../models/sales-slot.js";
-import type { ProductInventory } from "@/domain/models/index.js";
+import type { ProductInventory } from "../models/index.js";
 import type { SalesSlotService } from "./sales-slot-service.js";
 import type { SalesSlotRepository } from "../repositories/sales-slot.js";
 import type { ProductRepository } from "../repositories/product-repository.js";

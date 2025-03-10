@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import type { ProductService } from "@/domain/services/product-service.js";
+import type { ProductService } from "../../domain/services/product-service.js";
 
 export class ProductController {
     constructor(private readonly productService: ProductService) {}

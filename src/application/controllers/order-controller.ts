@@ -1,7 +1,7 @@
 import type { Context } from "hono";
-import type { OrderService } from "@/domain/services/order-service.js";
-import type { PaymentMethod } from "@/domain/types/index.js";
-import type { OrderStatus } from "@/domain/types/index.js";
+import type { OrderService } from "../../domain/services/order-service.js";
+import type { PaymentMethod } from "../../domain/types/index.js";
+import type { OrderStatus } from "../../domain/types/index.js";
 
 export class OrderController {
     constructor(private readonly orderService: OrderService) {}

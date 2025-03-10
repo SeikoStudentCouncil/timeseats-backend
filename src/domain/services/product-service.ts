@@ -1,6 +1,6 @@
 import type { ID } from "../types/id.js";
 import type { Product } from "../models/product.js";
-import type { ProductInventory } from "@/domain/models/index.js";
+import type { ProductInventory } from "../models/index.js";
 
 /**
  * ProductService - 商品サービスのインターフェース

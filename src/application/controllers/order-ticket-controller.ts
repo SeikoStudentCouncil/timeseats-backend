@@ -1,8 +1,8 @@
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
-import type { OrderTicketService } from "@/domain/services/order-ticket-service.js";
-import { OrderTicketValidator } from "@/application/validators/index.js";
-import { logger } from "@/api/middlewares/index.js";
+import type { OrderTicketService } from "../../domain/services/order-ticket-service.js";
+import { OrderTicketValidator } from "../validators/index.js";
+import { logger } from "../../api/middlewares/index.js";
 
 export class OrderTicketController {
     constructor(private readonly orderTicketService: OrderTicketService) {}

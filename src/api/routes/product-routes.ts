@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import type { Context } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
-import type { ProductController } from "@/application/controllers/index.js";
+import type { ProductController } from "../../application/controllers/index.js";
 import {
     createProductSchema,
     updateProductSchema,
     productIdSchema,
     searchProductSchema,
-} from "@/application/validators/index.js";
+} from "../../application/validators/index.js";
 import { z } from "zod";
 
 // APIレスポンススキーマの定義

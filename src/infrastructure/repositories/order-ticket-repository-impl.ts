@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import type { OrderTicketRepository } from "@/domain/repositories/order-ticket-repository.js";
-import type { OrderTicket } from "@/domain/models/order-ticket.js";
-import type { ID } from "@/domain/types/id.js";
-import type { PaymentMethod } from "@/domain/types/payment-method.js";
+import type { OrderTicketRepository } from "../../domain/repositories/order-ticket-repository.js";
+import type { OrderTicket } from "../../domain/models/order-ticket.js";
+import type { ID } from "../../domain/types/id.js";
+import type { PaymentMethod } from "../../domain/types/payment-method.js";
 
 export class OrderTicketRepositoryImpl implements OrderTicketRepository {
     constructor(private readonly prisma: PrismaClient) {}

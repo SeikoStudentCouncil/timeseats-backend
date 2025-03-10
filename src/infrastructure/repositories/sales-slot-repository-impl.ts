@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import type { SalesSlotRepository } from "@/domain/repositories/sales-slot.js";
-import type { SalesSlot } from "@/domain/models/sales-slot.js";
-import type { ProductInventory } from "@/domain/models/product-inventory.js";
-import type { ID } from "@/domain/types/id.js";
+import type { SalesSlotRepository } from "../../domain/repositories/sales-slot.js";
+import type { SalesSlot } from "../../domain/models/sales-slot.js";
+import type { ProductInventory } from "../../domain/models/product-inventory.js";
+import type { ID } from "../../domain/types/id.js";
 
 export class SalesSlotRepositoryImpl implements SalesSlotRepository {
     constructor(private readonly prisma: PrismaClient) {}
