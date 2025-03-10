@@ -38,9 +38,6 @@ importers:
       pino:
         specifier: ^9.6.0
         version: 9.6.0
-      typescript:
-        specifier: ^5.8.2
-        version: 5.8.2
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -75,6 +72,9 @@ importers:
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
       typescript-eslint:
         specifier: ^8.26.0
         version: 8.26.0(eslint@9.22.0)(typescript@5.8.2)
