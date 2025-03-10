@@ -5,6 +5,8 @@ import { createOrderTicketRoutes } from "./order-ticket-routes.js";
 import { createSalesSlotRoutes } from "./sales-slot-routes.js";
 import { errorHandler } from "../middlewares/error-handler.js";
 import { loggerMiddleware } from "../middlewares/logger.js";
+import { openAPISpecs } from "hono-openapi";
+import { apiReference } from "@scalar/hono-api-reference";
 import type { ProductController } from "../../application/controllers/product-controller.js";
 import type { OrderController } from "../../application/controllers/order-controller.js";
 import type { OrderTicketController } from "../../application/controllers/order-ticket-controller.js";
@@ -46,6 +48,35 @@ export const createApiRouter = (deps: ApiDependencies) => {
         c.json({
             name: "timeseats-api",
             version: API_VERSION,
+        })
+    );
+
+    // OpenAPI ドキュメント
+    app.get(
+        "/openapi",
+        openAPISpecs(app, {
+            documentation: {
+                info: {
+                    title: "TimeSeats API",
+                    version: API_VERSION,
+                    description: "TimeSeats バックエンドAPI",
+                },
+                servers: [
+                    {
+                        url: "http://localhost:3000",
+                        description: "開発サーバー",
+                    },
+                ],
+            },
+        })
+    );
+
+    // API ドキュメントUI
+    app.get(
+        "/docs",
+        apiReference({
+            theme: "saturn",
+            spec: { url: "/openapi" },
         })
     );
 
