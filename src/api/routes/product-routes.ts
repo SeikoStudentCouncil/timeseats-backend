@@ -15,9 +15,7 @@ import { z } from "zod";
 const productResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
-    description: z.string().optional(),
     price: z.number(),
-    imageUrl: z.string().url().optional(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime(),
 });

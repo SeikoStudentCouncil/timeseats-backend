@@ -1,4 +1,5 @@
 import { defineConfig } from "vitest/config";
+import * as path from "path";
 
 export default defineConfig({
     test: {
@@ -7,5 +8,8 @@ export default defineConfig({
     },
     resolve: {
         extensions: [".ts", ".js"],
+        alias: {
+            "@": path.resolve(__dirname, "src"),
+        },
     },
 });

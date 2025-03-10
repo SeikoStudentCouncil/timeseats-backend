@@ -6,12 +6,7 @@ export const createProductSchema = z.object({
         .string()
         .min(1, "商品名は必須です")
         .max(100, "商品名は100文字以内で入力してください"),
-    description: z
-        .string()
-        .max(500, "説明は500文字以内で入力してください")
-        .optional(),
     price: z.number().int().positive("価格は正の整数で入力してください"),
-    imageUrl: z.string().url("有効なURLを入力してください").optional(),
 });
 
 // 商品更新用のバリデーションスキーマ
