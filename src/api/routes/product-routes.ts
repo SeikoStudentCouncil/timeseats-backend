@@ -112,7 +112,6 @@ export const createProductRoutes = (controller: ProductController) => {
                 },
             },
         }),
-        zValidator("param", productIdSchema),
         (c: Context) => controller.getProductById(c)
     );
 
@@ -187,7 +186,6 @@ export const createProductRoutes = (controller: ProductController) => {
                 },
             },
         }),
-        zValidator("param", productIdSchema),
         zValidator("json", updateProductSchema),
         (c: Context) => controller.updateProduct(c)
     );
@@ -216,7 +214,6 @@ export const createProductRoutes = (controller: ProductController) => {
                 },
             },
         }),
-        zValidator("param", productIdSchema),
         (c: Context) => controller.deleteProduct(c)
     );
 

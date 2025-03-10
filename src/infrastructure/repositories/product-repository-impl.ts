@@ -24,6 +24,14 @@ export class ProductRepositoryImpl implements ProductRepository {
     }
 
     async update(id: ID, entity: Partial<Product>): Promise<void> {
+        const existingProduct = await this.prisma.product.findUnique({
+            where: { id },
+        });
+
+        if (!existingProduct) {
+            throw new Error("Product not found");
+        }
+
         await this.prisma.product.update({
             where: { id },
             data: entity,

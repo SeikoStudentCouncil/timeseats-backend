@@ -3,6 +3,8 @@ import * as path from "path";
 
 export default defineConfig({
     test: {
+        maxWorkers: 1,
+        minWorkers: 1,
         globals: true,
         environment: "node",
     },

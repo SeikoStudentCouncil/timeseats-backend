@@ -53,7 +53,7 @@ export const createApiRouter = (deps: ApiDependencies) => {
 
     // OpenAPI ドキュメント
     app.get(
-        "/openapi",
+        "/openapi.json",
         openAPISpecs(app, {
             documentation: {
                 info: {
@@ -76,7 +76,7 @@ export const createApiRouter = (deps: ApiDependencies) => {
         "/docs",
         apiReference({
             theme: "saturn",
-            spec: { url: "/openapi" },
+            spec: { url: "/openapi.json" },
         })
     );
 
@@ -97,7 +97,7 @@ export const createApiRouter = (deps: ApiDependencies) => {
         return c.json(
             {
                 status: 500,
-                message: "サーバーエラーが発生しました",
+                message: err,
             },
             500
         );
@@ -106,30 +106,3 @@ export const createApiRouter = (deps: ApiDependencies) => {
     return app;
 };
 
-// 共通のレスポンス型
-export interface ApiResponse<T> {
-    status: number;
-    data?: T;
-    error?: {
-        message: string;
-        details?: unknown;
-    };
-}
-
-// ユーティリティ関数
-export const success = <T>(data: T): ApiResponse<T> => ({
-    status: 200,
-    data,
-});
-
-export const error = (
-    message: string,
-    status = 500,
-    details?: unknown
-): ApiResponse<never> => ({
-    status,
-    error: {
-        message,
-        details,
-    },
-});

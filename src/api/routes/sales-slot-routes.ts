@@ -113,7 +113,6 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 },
             },
         }),
-        zValidator("param", salesSlotIdSchema),
         (c: Context) => controller.getSalesSlotById(c)
     );
 
@@ -188,7 +187,6 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 },
             },
         }),
-        zValidator("param", salesSlotIdSchema),
         zValidator("json", updateSalesSlotSchema),
         (c: Context) => controller.updateSalesSlot(c)
     );
@@ -217,7 +215,6 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 },
             },
         }),
-        zValidator("param", salesSlotIdSchema),
         (c: Context) => controller.deleteSalesSlot(c)
     );
 

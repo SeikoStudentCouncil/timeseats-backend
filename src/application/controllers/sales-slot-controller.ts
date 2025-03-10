@@ -50,6 +50,10 @@ export class SalesSlotController {
     async createSalesSlot(c: Context) {
         try {
             const data = await c.req.json();
+
+            data.startTime = new Date(data.startTime);
+            data.endTime = new Date(data.endTime);
+
             const salesSlot = await this.salesSlotService.createSalesSlot(data);
             return c.json({ success: true, data: salesSlot }, 201);
         } catch (error) {

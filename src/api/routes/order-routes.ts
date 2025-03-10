@@ -133,7 +133,6 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
             },
         }),
-        zValidator("param", orderIdSchema),
         (c: Context) => controller.getOrderById(c)
     );
 
@@ -199,7 +198,6 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
             },
         }),
-        zValidator("param", orderIdSchema),
         (c: Context) => controller.cancelOrder(c)
     );
 
@@ -241,7 +239,6 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
             },
         }),
-        zValidator("param", orderIdSchema),
         zValidator("json", confirmOrderSchema),
         (c: Context) => controller.confirmOrder(c)
     );
@@ -339,7 +336,6 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
             },
         }),
-        zValidator("param", orderIdSchema),
         (c: Context) => controller.markOrderAsDelivered(c)
     );
 
