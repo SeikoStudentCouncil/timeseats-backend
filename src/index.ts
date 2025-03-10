@@ -1,9 +1,10 @@
 import { serve } from "@hono/node-server";
 import api from "./router.js";
+import { welcome } from "@/welcome.js";
 
 const port = process.env.PORT || 3000;
 
-console.log(`サーバーを起動します: http://localhost:${port}`);
+welcome(Number(port));
 
 serve({
     fetch: api.fetch,
