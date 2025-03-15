@@ -6,7 +6,6 @@ import type { SalesSlotController } from "../../application/controllers/index.js
 import {
     createSalesSlotSchema,
     updateSalesSlotSchema,
-    salesSlotIdSchema,
     searchSalesSlotSchema,
 } from "../../application/validators/index.js";
 import { z } from "zod";

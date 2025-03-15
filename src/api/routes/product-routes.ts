@@ -6,7 +6,6 @@ import type { ProductController } from "../../application/controllers/index.js";
 import {
     createProductSchema,
     updateProductSchema,
-    productIdSchema,
     searchProductSchema,
 } from "../../application/validators/index.js";
 import { z } from "zod";

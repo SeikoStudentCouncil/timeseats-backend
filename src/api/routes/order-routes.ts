@@ -5,7 +5,6 @@ import { resolver, validator as zValidator } from "hono-openapi/zod";
 import type { OrderController } from "../../application/controllers/index.js";
 import {
     createOrderSchema,
-    orderIdSchema,
     searchOrderSchema,
     confirmOrderSchema,
 } from "../../application/validators/index.js";
