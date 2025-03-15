@@ -75,8 +75,8 @@ export const createApiRouter = (deps: ApiDependencies) => {
     app.get(
         "/docs",
         apiReference({
-            theme: "saturn",
-            spec: { url: "/openapi.json" },
+            theme: "alternate",
+            url: "/openapi.json",
         })
     );
 
@@ -105,4 +105,3 @@ export const createApiRouter = (deps: ApiDependencies) => {
 
     return app;
 };
-
