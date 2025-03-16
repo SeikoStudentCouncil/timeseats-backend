@@ -11,7 +11,10 @@ export class ProductController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -23,16 +26,16 @@ export class ProductController {
             const id = c.req.param("id");
             const product = await this.productService.getProductById(id);
             if (!product) {
-                return c.json(
-                    { error: "Product not found" },
-                    404
-                );
+                return c.json({ error: "Product not found" }, 404);
             }
             return c.json(product);
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -47,7 +50,10 @@ export class ProductController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -60,16 +66,16 @@ export class ProductController {
             const data = await c.req.json();
             const product = await this.productService.updateProduct(id, data);
             if (!product) {
-                return c.json(
-                    { error: "Product not found" },
-                    404
-                );
+                return c.json({ error: "Product not found" }, 404);
             }
             return c.json(product);
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -84,7 +90,10 @@ export class ProductController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -104,7 +113,10 @@ export class ProductController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -120,16 +132,16 @@ export class ProductController {
                 salesSlotId
             );
             if (!inventory) {
-                return c.json(
-                    { error: "Inventory not found" },
-                    404
-                );
+                return c.json({ error: "Inventory not found" }, 404);
             }
             return c.json(inventory);
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -139,12 +151,16 @@ export class ProductController {
     async getInventoryForProduct(c: Context) {
         try {
             const productId = c.req.param("id");
-            const inventories = await this.productService.getInventoryForProduct(productId);
+            const inventories =
+                await this.productService.getInventoryForProduct(productId);
             return c.json(inventories);
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error ? error.message : "Unknown error",
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );

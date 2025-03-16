@@ -216,6 +216,57 @@ export const createProductRoutes = (controller: ProductController) => {
         (c: Context) => controller.deleteProduct(c)
     );
 
+    router.get(
+        "/:id/inventory/:salesSlotId",
+        describeRoute({
+            description: "商品の在庫を取得します",
+            tags: ["products"],
+            parameters: [
+                {
+                    name: "id",
+                    in: "path",
+                    description: "商品ID",
+                    required: true,
+                    schema: { type: "string", format: "uuid" },
+                },
+                {
+                    name: "salesSlotId",
+                    in: "path",
+                    description: "販売枠ID",
+                    required: true,
+                    schema: { type: "string", format: "uuid" },
+                },
+            ],
+            responses: {
+                200: {
+                    description: "在庫情報の取得に成功",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    quantity: {
+                                        type: "integer",
+                                        description: "在庫数",
+                                    },
+                                    salesSlotId: {
+                                        type: "string",
+                                        format: "uuid",
+                                        description: "販売枠ID",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                404: {
+                    description: "商品が見つかりません",
+                },
+            },
+        }),
+        (c: Context) => controller.getProductInventory(c)
+    );
+
     // 商品在庫の設定
     router.post(
         "/:id/inventory",
