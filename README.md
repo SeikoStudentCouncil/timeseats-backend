@@ -1,6 +1,8 @@
+# 第６６回聖光祭食品システム バックエンドサーバー
+
 ```
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ```
