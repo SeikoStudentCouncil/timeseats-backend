@@ -25,10 +25,15 @@ const errorResponseSchema = z.object({
     error: z.string(),
 });
 
-const inventoryResponseSchema = z.object({
+export const inventoryResponseSchema = z.object({
+    id: z.string().uuid(),
     productId: z.string().uuid(),
     salesSlotId: z.string().uuid(),
-    quantity: z.number().int(),
+    initialQuantity: z.number().int(),
+    reservedQuantity: z.number().int(),
+    soldQuantity: z.number().int(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
 });
 
 const inventoriesResponseSchema = z.array(inventoryResponseSchema);
@@ -391,9 +396,9 @@ export const createProductRoutes = (controller: ProductController) => {
                         schema: {
                             type: "object",
                             properties: {
-                                quantity: {
+                                initialQuantity: {
                                     type: "integer",
-                                    description: "在庫数",
+                                    description: "初期在庫数",
                                     minimum: 0,
                                 },
                                 salesSlotId: {
@@ -402,7 +407,7 @@ export const createProductRoutes = (controller: ProductController) => {
                                     description: "販売枠ID",
                                 },
                             },
-                            required: ["quantity", "salesSlotId"],
+                            required: ["initialQuantity", "salesSlotId"],
                         },
                     },
                 },

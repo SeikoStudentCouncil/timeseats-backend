@@ -13,9 +13,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -33,9 +34,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -54,9 +56,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -76,9 +79,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -93,9 +97,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -110,9 +115,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -132,9 +138,10 @@ export class OrderController {
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );
@@ -143,17 +150,18 @@ export class OrderController {
 
     async markOrderAsDelivered(c: Context) {
         try {
-            const ticketId = c.req.param("ticketId");
+            const id = c.req.param("id");
             const orderTicket = await this.orderService.markOrderAsDelivered(
-                ticketId
+                id
             );
             return c.json(orderTicket);
         } catch (error) {
             return c.json(
                 {
-                    error: error instanceof Error
-                        ? error.message
-                        : "Unknown error"
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
                 },
                 500
             );

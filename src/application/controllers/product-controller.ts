@@ -103,11 +103,11 @@ export class ProductController {
     async setProductInventory(c: Context) {
         try {
             const productId = c.req.param("id");
-            const { salesSlotId, quantity } = await c.req.json();
+            const { salesSlotId, initialQuantity } = await c.req.json();
             const inventory = await this.productService.setProductInventory(
                 salesSlotId,
                 productId,
-                quantity
+                initialQuantity
             );
             return c.json(inventory);
         } catch (error) {

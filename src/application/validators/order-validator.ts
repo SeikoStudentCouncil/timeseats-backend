@@ -36,7 +36,7 @@ export const searchOrderSchema = z.object({
 
 // 注文確定用のバリデーションスキーマ
 export const confirmOrderSchema = z.object({
-    orderId: z.string().uuid("有効なUUID形式ではありません"),
+    transactionId: z.string(),
     ticketNumber: z.string().min(1, "伝票番号は必須です"),
 });
 

@@ -392,6 +392,107 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
     );
 
     // 未払い伝票の取得
+    // 注文IDによる伝票の取得
+    router.get(
+        "/order/:orderId",
+        describeRoute({
+            description: "指定された注文IDの伝票を取得します",
+            tags: ["tickets"],
+            parameters: [
+                {
+                    name: "orderId",
+                    in: "path",
+                    description: "注文ID",
+                    required: true,
+                    schema: { type: "string", format: "uuid" },
+                },
+            ],
+            responses: {
+                200: {
+                    description: "伝票の取得に成功",
+                    content: {
+                        "application/json": {
+                            schema: resolver(orderTicketResponseSchema),
+                        },
+                    },
+                },
+                404: {
+                    description: "伝票が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+            },
+        }),
+        (c: Context) => controller.getTicketByOrder(c)
+    );
+
+    // 引き渡し済み伝票の取得
+    router.get(
+        "/status/delivered",
+        describeRoute({
+            description: "引き渡し済みの伝票一覧を取得します",
+            tags: ["tickets"],
+            responses: {
+                200: {
+                    description: "引き渡し済み伝票の取得に成功",
+                    content: {
+                        "application/json": {
+                            schema: resolver(orderTicketsResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+            },
+        }),
+        (c: Context) => controller.getDeliveredTickets(c)
+    );
+
+    // 未引き渡し伝票の取得
+    router.get(
+        "/status/undelivered",
+        describeRoute({
+            description: "未引き渡しの伝票一覧を取得します",
+            tags: ["tickets"],
+            responses: {
+                200: {
+                    description: "未引き渡し伝票の取得に成功",
+                    content: {
+                        "application/json": {
+                            schema: resolver(orderTicketsResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+            },
+        }),
+        (c: Context) => controller.getUndeliveredTickets(c)
+    );
+
     router.get(
         "/status/unpaid",
         describeRoute({

@@ -36,6 +36,18 @@ const errorResponseSchema = z.object({
 
 const ordersResponseSchema = z.array(orderResponseSchema);
 
+const orderTicketResponseSchema = z.object({
+    id: z.string().uuid(),
+    ticketNumber: z.string(),
+    orderId: z.string().uuid(),
+    paymentMethod: z.string(),
+    transactionId: z.string().optional(),
+    isPaid: z.boolean(),
+    isDelivered: z.boolean(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
+});
+
 export const createOrderRoutes = (controller: OrderController) => {
     const router = new Hono();
 
@@ -254,7 +266,7 @@ export const createOrderRoutes = (controller: OrderController) => {
                     description: "注文の確定に成功",
                     content: {
                         "application/json": {
-                            schema: resolver(orderResponseSchema),
+                            schema: resolver(orderTicketResponseSchema),
                         },
                     },
                 },
@@ -374,7 +386,7 @@ export const createOrderRoutes = (controller: OrderController) => {
                     description: "商品受け渡し完了のマークに成功",
                     content: {
                         "application/json": {
-                            schema: resolver(orderResponseSchema),
+                            schema: resolver(orderTicketResponseSchema),
                         },
                     },
                 },
