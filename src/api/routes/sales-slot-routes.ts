@@ -22,6 +22,10 @@ const salesSlotResponseSchema = z.object({
 
 const salesSlotsResponseSchema = z.array(salesSlotResponseSchema);
 
+const errorResponseSchema = z.object({
+    error: z.string(),
+});
+
 export const createSalesSlotRoutes = (controller: SalesSlotController) => {
     const router = new Hono();
 
@@ -77,6 +81,14 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                         },
                     },
                 },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
             },
         }),
         zValidator("query", searchSalesSlotSchema),
@@ -109,6 +121,19 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 },
                 404: {
                     description: "販売枠が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -141,6 +166,19 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 },
                 400: {
                     description: "入力値が不正です",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -183,6 +221,19 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 },
                 404: {
                     description: "販売枠が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -209,8 +260,13 @@ export const createSalesSlotRoutes = (controller: SalesSlotController) => {
                 204: {
                     description: "販売枠の削除に成功",
                 },
-                404: {
-                    description: "販売枠が見つかりません",
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),

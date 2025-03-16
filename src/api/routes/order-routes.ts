@@ -30,12 +30,15 @@ const orderResponseSchema = z.object({
     updatedAt: z.string().datetime(),
 });
 
+const errorResponseSchema = z.object({
+    error: z.string(),
+});
+
 const ordersResponseSchema = z.array(orderResponseSchema);
 
 export const createOrderRoutes = (controller: OrderController) => {
     const router = new Hono();
 
-    // 注文一覧の取得
     router.get(
         "/",
         describeRoute({
@@ -97,13 +100,20 @@ export const createOrderRoutes = (controller: OrderController) => {
                         },
                     },
                 },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
             },
         }),
         zValidator("query", searchOrderSchema),
         (c: Context) => controller.getAllOrders(c)
     );
 
-    // 注文の取得
     router.get(
         "/:id",
         describeRoute({
@@ -129,13 +139,25 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
                 404: {
                     description: "注文が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
         (c: Context) => controller.getOrderById(c)
     );
 
-    // 注文の作成（仮予約）
     router.post(
         "/",
         describeRoute({
@@ -159,8 +181,13 @@ export const createOrderRoutes = (controller: OrderController) => {
                         },
                     },
                 },
-                400: {
-                    description: "入力値が不正です",
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -168,7 +195,6 @@ export const createOrderRoutes = (controller: OrderController) => {
         (c: Context) => controller.createOrder(c)
     );
 
-    // 注文のキャンセル
     router.post(
         "/:id/cancel",
         describeRoute({
@@ -184,23 +210,22 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
             ],
             responses: {
-                200: {
+                204: {
                     description: "注文のキャンセルに成功",
+                },
+                500: {
+                    description: "サーバーエラー",
                     content: {
                         "application/json": {
-                            schema: resolver(orderResponseSchema),
+                            schema: resolver(errorResponseSchema),
                         },
                     },
-                },
-                404: {
-                    description: "注文が見つかりません",
                 },
             },
         }),
         (c: Context) => controller.cancelOrder(c)
     );
 
-    // 注文の確定
     router.post(
         "/:id/confirm",
         describeRoute({
@@ -233,8 +258,13 @@ export const createOrderRoutes = (controller: OrderController) => {
                         },
                     },
                 },
-                404: {
-                    description: "注文が見つかりません",
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -242,7 +272,6 @@ export const createOrderRoutes = (controller: OrderController) => {
         (c: Context) => controller.confirmOrder(c)
     );
 
-    // ステータスによる注文の取得
     router.get(
         "/status/:status",
         describeRoute({
@@ -269,12 +298,19 @@ export const createOrderRoutes = (controller: OrderController) => {
                         },
                     },
                 },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
             },
         }),
         (c: Context) => controller.getOrdersByStatus(c)
     );
 
-    // チケット番号による注文の取得
     router.get(
         "/ticket/:ticketNumber",
         describeRoute({
@@ -300,13 +336,25 @@ export const createOrderRoutes = (controller: OrderController) => {
                 },
                 404: {
                     description: "注文が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
         (c: Context) => controller.getOrdersByTicketNumber(c)
     );
 
-    // 注文の商品受け渡し完了
     router.post(
         "/:id/delivered",
         describeRoute({
@@ -330,8 +378,13 @@ export const createOrderRoutes = (controller: OrderController) => {
                         },
                     },
                 },
-                404: {
-                    description: "注文が見つかりません",
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),

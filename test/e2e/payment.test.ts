@@ -37,7 +37,7 @@ describe("Cashier Flow E2E Test", () => {
 
         // 3. Set inventory for the product
         const inventoryPayload = {
-            salesSlotId,
+            salesSlotId: salesSlotId,
             quantity: 10,
         };
         const inventoryRes = await app.request(
@@ -48,6 +48,8 @@ describe("Cashier Flow E2E Test", () => {
                 body: JSON.stringify(inventoryPayload),
             }
         );
+        const inventoryData = await inventoryRes.json();
+        console.log(inventoryData);
         expect(inventoryRes.status).toBe(200);
 
         // 4. Create an order (reservation)

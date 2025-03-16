@@ -26,6 +26,10 @@ const orderTicketResponseSchema = z.object({
 
 const orderTicketsResponseSchema = z.array(orderTicketResponseSchema);
 
+const errorResponseSchema = z.object({
+    error: z.string(),
+});
+
 export const createOrderTicketRoutes = (controller: OrderTicketController) => {
     const router = new Hono();
 
@@ -60,6 +64,14 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                         },
                     },
                 },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
             },
         }),
         (c: Context) => controller.getAllTickets(c)
@@ -91,6 +103,19 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                 },
                 404: {
                     description: "伝票が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -123,6 +148,19 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                 },
                 404: {
                     description: "伝票が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -155,6 +193,19 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                 },
                 400: {
                     description: "入力値が不正です",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -183,6 +234,19 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                 },
                 404: {
                     description: "伝票が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -222,8 +286,21 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                         },
                     },
                 },
-                404: {
-                    description: "伝票が見つかりません",
+                400: {
+                    description: "入力値が不正です",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -264,8 +341,21 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                         },
                     },
                 },
-                404: {
-                    description: "伝票が見つかりません",
+                400: {
+                    description: "入力値が不正です",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -288,6 +378,14 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                         },
                     },
                 },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
             },
         }),
         (c: Context) => controller.getPaidTickets(c)
@@ -305,6 +403,14 @@ export const createOrderTicketRoutes = (controller: OrderTicketController) => {
                     content: {
                         "application/json": {
                             schema: resolver(orderTicketsResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
                         },
                     },
                 },

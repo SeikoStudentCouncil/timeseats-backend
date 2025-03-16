@@ -21,6 +21,18 @@ const productResponseSchema = z.object({
 
 const productsResponseSchema = z.array(productResponseSchema);
 
+const errorResponseSchema = z.object({
+    error: z.string(),
+});
+
+const inventoryResponseSchema = z.object({
+    productId: z.string().uuid(),
+    salesSlotId: z.string().uuid(),
+    quantity: z.number().int(),
+});
+
+const inventoriesResponseSchema = z.array(inventoryResponseSchema);
+
 export const createProductRoutes = (controller: ProductController) => {
     const router = new Hono();
 
@@ -76,6 +88,14 @@ export const createProductRoutes = (controller: ProductController) => {
                         },
                     },
                 },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
             },
         }),
         zValidator("query", searchProductSchema),
@@ -108,6 +128,19 @@ export const createProductRoutes = (controller: ProductController) => {
                 },
                 404: {
                     description: "商品が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -140,6 +173,19 @@ export const createProductRoutes = (controller: ProductController) => {
                 },
                 400: {
                     description: "入力値が不正です",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -182,6 +228,19 @@ export const createProductRoutes = (controller: ProductController) => {
                 },
                 404: {
                     description: "商品が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -208,8 +267,13 @@ export const createProductRoutes = (controller: ProductController) => {
                 204: {
                     description: "商品の削除に成功",
                 },
-                404: {
-                    description: "商品が見つかりません",
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
@@ -242,29 +306,66 @@ export const createProductRoutes = (controller: ProductController) => {
                     description: "在庫情報の取得に成功",
                     content: {
                         "application/json": {
-                            schema: {
-                                type: "object",
-                                properties: {
-                                    quantity: {
-                                        type: "integer",
-                                        description: "在庫数",
-                                    },
-                                    salesSlotId: {
-                                        type: "string",
-                                        format: "uuid",
-                                        description: "販売枠ID",
-                                    },
-                                },
-                            },
+                            schema: resolver(inventoryResponseSchema),
                         },
                     },
                 },
                 404: {
-                    description: "商品が見つかりません",
+                    description: "在庫情報が見つかりません",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),
         (c: Context) => controller.getProductInventory(c)
+    );
+
+    // 商品の全在庫情報の取得
+    router.get(
+        "/:id/inventory",
+        describeRoute({
+            description: "商品の全在庫情報を取得します",
+            tags: ["products"],
+            parameters: [
+                {
+                    name: "id",
+                    in: "path",
+                    description: "商品ID",
+                    required: true,
+                    schema: { type: "string", format: "uuid" },
+                },
+            ],
+            responses: {
+                200: {
+                    description: "在庫情報の取得に成功",
+                    content: {
+                        "application/json": {
+                            schema: resolver(inventoriesResponseSchema),
+                        },
+                    },
+                },
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
+                },
+            },
+        }),
+        (c: Context) => controller.getInventoryForProduct(c)
     );
 
     // 商品在庫の設定
@@ -309,9 +410,19 @@ export const createProductRoutes = (controller: ProductController) => {
             responses: {
                 200: {
                     description: "在庫設定に成功",
+                    content: {
+                        "application/json": {
+                            schema: resolver(inventoryResponseSchema),
+                        },
+                    },
                 },
-                404: {
-                    description: "商品または販売枠が見つかりません",
+                500: {
+                    description: "サーバーエラー",
+                    content: {
+                        "application/json": {
+                            schema: resolver(errorResponseSchema),
+                        },
+                    },
                 },
             },
         }),

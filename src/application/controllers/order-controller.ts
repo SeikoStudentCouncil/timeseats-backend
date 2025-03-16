@@ -9,15 +9,13 @@ export class OrderController {
     async getAllOrders(c: Context) {
         try {
             const orders = await this.orderService.getAllOrders();
-            return c.json({ success: true, data: orders });
+            return c.json(orders);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -29,20 +27,15 @@ export class OrderController {
             const id = c.req.param("id");
             const order = await this.orderService.getOrderById(id);
             if (!order) {
-                return c.json(
-                    { success: false, error: "Order not found" },
-                    404
-                );
+                return c.json({ error: "Order not found" }, 404);
             }
-            return c.json({ success: true, data: order });
+            return c.json(order);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -57,15 +50,13 @@ export class OrderController {
                 salesSlotId,
                 items
             );
-            return c.json({ success: true, data: order }, 201);
+            return c.json(order, 201);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -81,15 +72,13 @@ export class OrderController {
                 paymentMethod as PaymentMethod,
                 transactionId
             );
-            return c.json({ success: true, data: orderTicket });
+            return c.json(orderTicket);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -99,16 +88,14 @@ export class OrderController {
     async cancelOrder(c: Context) {
         try {
             const id = c.req.param("id");
-            const success = await this.orderService.cancelReservation(id);
-            return c.json({ success });
+            await this.orderService.cancelReservation(id);
+            return c.body(null, 204);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -119,15 +106,13 @@ export class OrderController {
         try {
             const status = c.req.param("status") as OrderStatus;
             const orders = await this.orderService.getOrdersByStatus(status);
-            return c.json({ success: true, data: orders });
+            return c.json(orders);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -141,20 +126,15 @@ export class OrderController {
                 ticketNumber
             );
             if (!order) {
-                return c.json(
-                    { success: false, error: "Order not found" },
-                    404
-                );
+                return c.json({ error: "Order not found" }, 404);
             }
-            return c.json({ success: true, data: order });
+            return c.json(order);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
@@ -167,15 +147,13 @@ export class OrderController {
             const orderTicket = await this.orderService.markOrderAsDelivered(
                 ticketId
             );
-            return c.json({ success: true, data: orderTicket });
+            return c.json(orderTicket);
         } catch (error) {
             return c.json(
                 {
-                    success: false,
-                    error:
-                        error instanceof Error
-                            ? error.message
-                            : "Unknown error",
+                    error: error instanceof Error
+                        ? error.message
+                        : "Unknown error"
                 },
                 500
             );
