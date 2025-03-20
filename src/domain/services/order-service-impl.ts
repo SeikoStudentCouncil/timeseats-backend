@@ -144,6 +144,7 @@ export class OrderServiceImpl implements OrderService {
     async confirmOrder(
         orderId: ID,
         paymentMethod: PaymentMethod,
+        ticketNumber: string,
         transactionId?: string
     ): Promise<OrderTicket> {
         // 注文情報を取得
@@ -193,7 +194,7 @@ export class OrderServiceImpl implements OrderService {
 
             // チケットを作成
             await this.orderTicketRepository.create({
-                ticketNumber: this.generateTicketNumber(),
+                ticketNumber,
                 orderId,
                 paymentMethod,
                 transactionId,
@@ -305,16 +306,5 @@ export class OrderServiceImpl implements OrderService {
         }
 
         return updatedTicket;
-    }
-
-    /**
-     * チケット番号を生成する補助メソッド
-     */
-    private generateTicketNumber(): string {
-        const timestamp = Date.now().toString().slice(-6);
-        const random = Math.floor(Math.random() * 1000)
-            .toString()
-            .padStart(3, "0");
-        return `T${timestamp}${random}`;
     }
 }

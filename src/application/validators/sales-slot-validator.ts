@@ -34,24 +34,3 @@ export const addInventorySchema = z.object({
     productId: z.string().uuid("有効なUUID形式ではありません"),
     quantity: z.number().int().positive("数量は正の整数で入力してください"),
 });
-
-// バリデーション関数
-export const validateCreateSalesSlot = (data: unknown) => {
-    return createSalesSlotSchema.parse(data);
-};
-
-export const validateUpdateSalesSlot = (data: unknown) => {
-    return updateSalesSlotSchema.parse(data);
-};
-
-export const validateSalesSlotId = (data: unknown) => {
-    return salesSlotIdSchema.parse(data);
-};
-
-export const validateSearchSalesSlot = (data: unknown) => {
-    return searchSalesSlotSchema.parse(data);
-};
-
-export const validateAddInventory = (data: unknown) => {
-    return addInventorySchema.parse(data);
-};

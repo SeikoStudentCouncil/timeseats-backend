@@ -25,20 +25,3 @@ export const searchProductSchema = z.object({
     page: z.number().int().positive().optional().default(1),
     limit: z.number().int().positive().optional().default(10),
 });
-
-// バリデーション関数
-export const validateCreateProduct = (data: unknown) => {
-    return createProductSchema.parse(data);
-};
-
-export const validateUpdateProduct = (data: unknown) => {
-    return updateProductSchema.parse(data);
-};
-
-export const validateProductId = (data: unknown) => {
-    return productIdSchema.parse(data);
-};
-
-export const validateSearchProduct = (data: unknown) => {
-    return searchProductSchema.parse(data);
-};

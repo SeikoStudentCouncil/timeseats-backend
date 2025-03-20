@@ -7,7 +7,7 @@ import { errorHandler } from "../middlewares/index.js";
 import { loggerMiddleware } from "../middlewares/logger.js";
 import { openAPISpecs } from "hono-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
-import type { ProductController } from "../../application/controllers/product-controller.js";
+import type { ProductController } from "../../application/controllers/index.js";
 import type { OrderController } from "../../application/controllers/index.js";
 import type { OrderTicketController } from "../../application/controllers/index.js";
 import type { SalesSlotController } from "../../application/controllers/index.js";

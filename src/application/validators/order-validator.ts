@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { OrderStatus } from "../../domain/types/index.js";
+import { PaymentMethod } from "../../domain/types/index.js";
 
 // 注文アイテム用のバリデーションスキーマ
 const orderItemSchema = z.object({
@@ -38,25 +39,5 @@ export const searchOrderSchema = z.object({
 export const confirmOrderSchema = z.object({
     transactionId: z.string(),
     ticketNumber: z.string().min(1, "伝票番号は必須です"),
+    paymentMethod: z.nativeEnum(PaymentMethod),
 });
-
-// バリデーション関数
-export const validateCreateOrder = (data: unknown) => {
-    return createOrderSchema.parse(data);
-};
-
-export const validateUpdateOrder = (data: unknown) => {
-    return updateOrderSchema.parse(data);
-};
-
-export const validateOrderId = (data: unknown) => {
-    return orderIdSchema.parse(data);
-};
-
-export const validateSearchOrder = (data: unknown) => {
-    return searchOrderSchema.parse(data);
-};
-
-export const validateConfirmOrder = (data: unknown) => {
-    return confirmOrderSchema.parse(data);
-};

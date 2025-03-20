@@ -69,10 +69,11 @@ export class OrderController {
     async confirmOrder(c: Context) {
         try {
             const orderId = c.req.param("id");
-            const { paymentMethod, transactionId } = await c.req.json();
+            const { paymentMethod, transactionId, ticketNumber } = await c.req.json();
             const orderTicket = await this.orderService.confirmOrder(
                 orderId,
                 paymentMethod as PaymentMethod,
+                ticketNumber,
                 transactionId
             );
             return c.json(orderTicket);

@@ -43,12 +43,14 @@ export interface OrderService {
      * 仮予約を確定注文に変更します（決済完了時）
      * @param orderId 注文ID
      * @param paymentMethod 支払い方法
+     * @param ticketNumber 伝票番号
      * @param transactionId 決済トランザクションID（電子決済の場合）
      * @returns 作成された伝票
      */
     confirmOrder(
         orderId: ID,
         paymentMethod: PaymentMethod,
+        ticketNumber: string,
         transactionId?: string
     ): Promise<OrderTicket>;
 
