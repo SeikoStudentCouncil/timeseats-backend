@@ -28,4 +28,3 @@ lerna-debug.log*
 .DS_Store
 docs/
 dist/
-test/e2e
