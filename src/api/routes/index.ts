@@ -32,13 +32,13 @@ export const createApiRouter = (deps: ApiDependencies) => {
     app.use("/*", errorHandler);
 
     // APIバージョンのプレフィックス
-    const v1 = app.basePath(`/api/${API_VERSION}`);
+    const base = app.basePath(`/api/${API_VERSION}`);
 
     // 各リソースのルートをマウント
-    v1.route("/products", createProductRoutes(deps.productController));
-    v1.route("/orders", createOrderRoutes(deps.orderController));
-    v1.route("/tickets", createOrderTicketRoutes(deps.orderTicketController));
-    v1.route("/sales-slots", createSalesSlotRoutes(deps.salesSlotController));
+    base.route("/products", createProductRoutes(deps.productController));
+    base.route("/orders", createOrderRoutes(deps.orderController));
+    base.route("/tickets", createOrderTicketRoutes(deps.orderTicketController));
+    base.route("/sales-slots", createSalesSlotRoutes(deps.salesSlotController));
 
     // ヘルスチェックエンドポイント
     app.get("/health", (c) => c.json({ status: "ok" }));
