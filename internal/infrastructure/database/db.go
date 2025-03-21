@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -15,6 +16,7 @@ import (
 var db *gorm.DB
 
 func Init() error {
+	godotenv.Load()
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
@@ -32,6 +34,8 @@ func Init() error {
 	if err != nil {
 		return fmt.Errorf("failed to connect database: %w", err)
 	}
+
+	db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
 
 	err = db.AutoMigrate(
 		&models.Product{},
