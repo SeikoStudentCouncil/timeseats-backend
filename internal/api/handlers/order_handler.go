@@ -41,7 +41,7 @@ func (h *OrderHandler) Create(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(order)
+	return c.Status(fiber.StatusCreated).JSON(NewOrderResponse(order))
 }
 
 // @Summary Get all orders
@@ -55,7 +55,7 @@ func (h *OrderHandler) GetAll(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(orders)
+	return c.JSON(NewOrderResponseList(orders))
 }
 
 // @Summary Get an order by ID
@@ -72,7 +72,7 @@ func (h *OrderHandler) GetByID(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, "Order not found")
 	}
 
-	return c.JSON(order)
+	return c.JSON(NewOrderResponse(order))
 }
 
 // @Summary Get orders by status
@@ -101,7 +101,7 @@ func (h *OrderHandler) GetByStatus(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(orders)
+	return c.JSON(NewOrderResponseList(orders))
 }
 
 // @Summary Cancel an order
@@ -118,7 +118,7 @@ func (h *OrderHandler) Cancel(c *fiber.Ctx) error {
 	}
 
 	order, _ := h.orderService.GetOrder(c.Context(), types.ID(id))
-	return c.JSON(order)
+	return c.JSON(NewOrderResponse(order))
 }
 
 // @Summary Add items to an order
@@ -151,5 +151,5 @@ func (h *OrderHandler) AddItems(c *fiber.Ctx) error {
 	}
 
 	order, _ := h.orderService.GetOrder(c.Context(), types.ID(id))
-	return c.JSON(order)
+	return c.JSON(NewOrderResponse(order))
 }

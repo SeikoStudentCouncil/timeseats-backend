@@ -150,3 +150,37 @@ type UpdatePaymentStatusRequest struct {
 	IsPaid        bool    `json:"isPaid"`
 	TransactionID *string `json:"transactionId,omitempty"`
 }
+
+func NewOrderItemResponse(item *models.OrderItem) OrderItemResponse {
+	return OrderItemResponse{
+		ID:        string(item.ID),
+		ProductID: string(item.ProductID),
+		Quantity:  item.Quantity,
+		Price:     item.Price,
+	}
+}
+
+func NewOrderResponse(o *models.Order) OrderResponse {
+	items := make([]OrderItemResponse, len(o.Items))
+	for i, item := range o.Items {
+		items[i] = NewOrderItemResponse(&item)
+	}
+
+	return OrderResponse{
+		ID:          string(o.ID),
+		SalesSlotID: string(o.SalesSlotID),
+		Status:      o.Status.String(),
+		TotalAmount: o.TotalAmount,
+		Items:       items,
+		CreatedAt:   o.CreatedAt,
+		UpdatedAt:   o.UpdatedAt,
+	}
+}
+
+func NewOrderResponseList(orders []models.Order) []OrderResponse {
+	result := make([]OrderResponse, len(orders))
+	for i, o := range orders {
+		result[i] = NewOrderResponse(&o)
+	}
+	return result
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"os"
 
@@ -23,7 +24,12 @@ func main() {
 	if err := database.Init(); err != nil {
 		log.Fatal(err)
 	}
-	defer database.Close()
+	defer func() {
+		err := database.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	db := database.GetDB()
 
@@ -44,14 +50,15 @@ func main() {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
-			if e, ok := err.(*fiber.Error); ok {
+			var e *fiber.Error
+			if errors.As(err, &e) {
 				code = e.Code
 			}
 			return c.Status(code).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		},
-		Prefork: true,
+		Prefork: false,
 	})
 
 	api.SetupRouter(app, serviceFactory)

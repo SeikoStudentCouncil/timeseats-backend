@@ -6,6 +6,7 @@ import (
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/models"
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/repositories"
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/types"
+	"github.com/google/uuid"
 )
 
 type ProductService interface {
@@ -26,6 +27,7 @@ func NewProductService(repo repositories.ProductRepository) ProductService {
 
 func (s *productService) CreateProduct(ctx context.Context, name string, price int) (*models.Product, error) {
 	product := &models.Product{
+		ID:    types.ID(uuid.New().String()),
 		Name:  name,
 		Price: price,
 	}
