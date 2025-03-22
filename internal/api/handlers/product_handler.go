@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"net/url"
+
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/services"
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/types"
 	"github.com/gofiber/fiber/v2"
@@ -58,7 +60,10 @@ func (h *ProductHandler) GetAll(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /products/{id} [get]
 func (h *ProductHandler) GetByID(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
 	product, err := h.productService.GetProduct(c.Context(), types.ID(id))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Product not found")
@@ -78,7 +83,10 @@ func (h *ProductHandler) GetByID(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /products/{id} [put]
 func (h *ProductHandler) Update(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	var req UpdateProductRequest
 	if err := c.BodyParser(&req); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
@@ -99,7 +107,10 @@ func (h *ProductHandler) Update(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /products/{id} [delete]
 func (h *ProductHandler) Delete(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	if err := h.productService.DeleteProduct(c.Context(), types.ID(id)); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Product not found")
 	}

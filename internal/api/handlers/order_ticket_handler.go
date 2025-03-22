@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"net/url"
+
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/services"
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/types"
 	"github.com/gofiber/fiber/v2"
@@ -63,7 +65,10 @@ func (h *OrderTicketHandler) GetAll(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /order-tickets/{id} [get]
 func (h *OrderTicketHandler) GetByID(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	ticket, err := h.ticketService.GetTicket(c.Context(), types.ID(id))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Ticket not found")
@@ -99,13 +104,16 @@ func (h *OrderTicketHandler) GetByNumber(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /order-tickets/{id}/payment [put]
 func (h *OrderTicketHandler) UpdatePayment(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	var req UpdatePaymentStatusRequest
 	if err := c.BodyParser(&req); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	err := h.ticketService.UpdatePaymentStatus(c.Context(), types.ID(id), req.IsPaid, req.TransactionID)
+	err = h.ticketService.UpdatePaymentStatus(c.Context(), types.ID(id), req.IsPaid, req.TransactionID)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
@@ -123,8 +131,11 @@ func (h *OrderTicketHandler) UpdatePayment(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /order-tickets/{id}/deliver [put]
 func (h *OrderTicketHandler) UpdateDelivery(c *fiber.Ctx) error {
-	id := c.Params("id")
-	err := h.ticketService.UpdateDeliveryStatus(c.Context(), types.ID(id), true)
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
+	err = h.ticketService.UpdateDeliveryStatus(c.Context(), types.ID(id), true)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"net/url"
 	"time"
 
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/services"
@@ -70,7 +71,10 @@ func (h *SalesSlotHandler) GetAll(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /sales-slots/{id} [get]
 func (h *SalesSlotHandler) GetByID(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	slot, err := h.salesSlotService.GetSalesSlot(c.Context(), types.ID(id))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Sales slot not found")
@@ -87,12 +91,15 @@ func (h *SalesSlotHandler) GetByID(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /sales-slots/{id}/activate [put]
 func (h *SalesSlotHandler) Activate(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	if err := h.salesSlotService.ActivateSalesSlot(c.Context(), types.ID(id)); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Sales slot not found")
 	}
 
-	slot, _ := h.salesSlotService.GetSalesSlot(c.Context(), types.ID(id))
+	slot, _ := h.salesSlotService.GetSalesSlot(c.Context(), types.ID(id)) // id is already unescaped
 	return c.JSON(NewSalesSlotResponse(slot))
 }
 
@@ -104,7 +111,10 @@ func (h *SalesSlotHandler) Activate(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /sales-slots/{id}/deactivate [put]
 func (h *SalesSlotHandler) Deactivate(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	if err := h.salesSlotService.DeactivateSalesSlot(c.Context(), types.ID(id)); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Sales slot not found")
 	}
@@ -124,7 +134,10 @@ func (h *SalesSlotHandler) Deactivate(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /sales-slots/{id}/products [post]
 func (h *SalesSlotHandler) AddProduct(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	var req AddProductToSlotRequest
 	if err := c.BodyParser(&req); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
@@ -151,7 +164,10 @@ func (h *SalesSlotHandler) AddProduct(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /sales-slots/{id}/products [get]
 func (h *SalesSlotHandler) GetProducts(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	inventories, err := h.salesSlotService.GetSlotInventories(c.Context(), types.ID(id))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Sales slot not found")

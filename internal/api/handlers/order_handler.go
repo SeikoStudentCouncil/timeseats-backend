@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"net/url"
+
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/services"
 	"github.com/SeikoStudentCouncil/timeseats-backend/internal/domain/types"
 	"github.com/gofiber/fiber/v2"
@@ -66,7 +68,10 @@ func (h *OrderHandler) GetAll(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /orders/{id} [get]
 func (h *OrderHandler) GetByID(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	order, err := h.orderService.GetOrder(c.Context(), types.ID(id))
 	if err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Order not found")
@@ -112,7 +117,10 @@ func (h *OrderHandler) GetByStatus(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /orders/{id}/cancel [put]
 func (h *OrderHandler) Cancel(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	if err := h.orderService.CancelOrder(c.Context(), types.ID(id)); err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Order not found")
 	}
@@ -132,7 +140,10 @@ func (h *OrderHandler) Cancel(c *fiber.Ctx) error {
 // @Failure 404 {object} ErrorResponse
 // @Router /orders/{id}/items [post]
 func (h *OrderHandler) AddItems(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := url.PathUnescape(c.Params("id"))
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID format")
+	}
 	var items []OrderItemCreateInput
 	if err := c.BodyParser(&items); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
